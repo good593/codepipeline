@@ -4,7 +4,7 @@ ENV APP_HOME=/apps
 
 WORKDIR $APP_HOME
 
-COPY demo/build.gradle settings.gradle gradlew $APP_HOME
+COPY demo/build.gradle demo/settings.gradle demo/gradlew $APP_HOME
 
 COPY demo/gradle $APP_HOME/gradle
 
