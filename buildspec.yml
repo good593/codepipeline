@@ -15,7 +15,9 @@ phases:
     commands:
       # Docker push를 할 ECR에 로그인 필요
       - echo Logging in to Amazon ECR...
-      - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
+      - aws --version
+      - echo $AWS_DEFAULT_REGION
+      - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
 
   build:
     commands:
