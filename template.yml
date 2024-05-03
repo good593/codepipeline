@@ -49,13 +49,12 @@ Resources:
               awslogs-region: ${AWS::Region}
               awslogs-stream-prefix: ecs
       ExecutionRoleArn: !Sub arn:aws:iam::${AWS::AccountId}:role/${ECSRole}
-      Family: task-definition-cfn
       # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ecs-taskdefinition.html#cfn-ecs-taskdefinition-cpu
       Cpu: "1024" # 1 vCPU
       Memory: "4096" # $ GB
       NetworkMode: awsvpc
       RequiresCompatibilities:
-        - FARGATE
+        - EC2
       RuntimePlatform:
         OperatingSystemFamily: LINUX
   ##########################################################################
@@ -68,7 +67,7 @@ Resources:
       ServiceName: !Sub ${DefaultName}-ecs-service
       Cluster: !Ref ECSCluster
       DesiredCount: 1
-      LaunchType: FARGATE
+      LaunchType: EC2
       NetworkConfiguration:
         AwsvpcConfiguration:
           AssignPublicIp: ENABLED
