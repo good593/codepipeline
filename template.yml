@@ -1,0 +1,79 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: >
+  ECS Template Sample
+
+##########################################################################
+#   Parameters
+#   https://docs.aws.amazon.com/ko_kr/AWSCloudFormation/latest/UserGuide/parameters-section-structure.html
+##########################################################################
+Parameters:
+  DefaultName:
+    Type: String
+    Default: sample
+  ECSRole:
+    Type: String
+    Default: sample-ecs-role
+
+Resources:
+  ##########################################################################
+  #   ECSCluster
+  #   
+  ##########################################################################
+  ECSCluster:
+    Type: 'AWS::ECS::Cluster'
+    Properties:
+      ClusterName: !Sub ${DefaultName}-cluster
+  ##########################################################################
+  #   ECSTaskDefinition
+  #   https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ecs-taskdefinition.html
+  ##########################################################################
+  ECSTaskDefinition:
+    Type: 'AWS::ECS::TaskDefinition'
+    Properties:
+      ContainerDefinitions:
+        - Command:
+            - java
+            - -jar
+            - app.jar
+          Essential: true
+          Image: !Sub ${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/course-ecs-springboot-ecr # 이미지 파일 넣기
+          Name: !Sub ${DefaultName}-ecs
+          PortMappings:
+            - ContainerPort: 8080
+              HostPort: 8080
+              Protocol: tcp
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group: /ecs/fargate-task-definition
+              awslogs-region: ${AWS::Region}
+              awslogs-stream-prefix: ecs
+      ExecutionRoleArn: !Sub arn:aws:iam::${AWS::AccountId}:role/${ECSRole}
+      Family: task-definition-cfn
+      # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ecs-taskdefinition.html#cfn-ecs-taskdefinition-cpu
+      Cpu: "1024" # 1 vCPU
+      Memory: "4096" # $ GB
+      NetworkMode: awsvpc
+      RequiresCompatibilities:
+        - FARGATE
+      RuntimePlatform:
+        OperatingSystemFamily: LINUX
+  ##########################################################################
+  #   ECSService
+  #   
+  ##########################################################################
+  ECSService:
+    Type: 'AWS::ECS::Service'
+    Properties:
+      ServiceName: !Sub ${DefaultName}-ecs-service
+      Cluster: !Ref ECSCluster
+      DesiredCount: 1
+      LaunchType: FARGATE
+      NetworkConfiguration:
+        AwsvpcConfiguration:
+          AssignPublicIp: ENABLED
+          SecurityGroups:
+            - sg-0b8eb5ef628718991 # 알맞은 내용으로 수정 
+          Subnets:
+            - subnet-0b440944f5713d145 # 알맞은 내용으로 수정 
+      TaskDefinition: !Ref ECSTaskDefinition
