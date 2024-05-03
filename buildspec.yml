@@ -17,7 +17,7 @@ phases:
       - echo Logging in to Amazon ECR...
       - aws --version
       - echo $AWS_DEFAULT_REGION
-      - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
+      - $(aws ecr get-login-password --region $AWS_DEFAULT_REGION --no-include-email)
 
   build:
     commands:
