@@ -45,11 +45,13 @@ Resources:
           LogConfiguration:
             LogDriver: awslogs
             Options:
+              mode: non-blocking
               awslogs-group: fargate-task-definition
               awslogs-region: ${AWS::Region}
               awslogs-stream-prefix: ecs
               awslogs-create-group: true
       ExecutionRoleArn: !Sub arn:aws:iam::${AWS::AccountId}:role/${ECSRole}
+      Family: "ecs-run-task"
       # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ecs-taskdefinition.html#cfn-ecs-taskdefinition-cpu
       Cpu: "2048" # 2 vCPU
       Memory: "4096" # 4 GB
