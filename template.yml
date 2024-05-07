@@ -70,7 +70,7 @@ Resources:
       LaunchType: FARGATE # FARGATE
       NetworkConfiguration:
         AwsvpcConfiguration:
-          AssignPublicIp: DISABLED
+          AssignPublicIp: ENABLED # DISABLED 
           SecurityGroups:
             - sg-0b8eb5ef628718991 # 알맞은 내용으로 수정 
           Subnets:
