@@ -54,7 +54,7 @@ Resources:
       Memory: "4096" # $ GB
       NetworkMode: awsvpc
       RequiresCompatibilities:
-        - EC2
+        - FARGATE
       RuntimePlatform:
         OperatingSystemFamily: LINUX
   ##########################################################################
@@ -67,7 +67,7 @@ Resources:
       ServiceName: !Sub ${DefaultName}-ecs-service
       Cluster: !Ref ECSCluster
       DesiredCount: 1
-      LaunchType: EC2 # FARGATE
+      LaunchType: FARGATE # FARGATE
       NetworkConfiguration:
         AwsvpcConfiguration:
           AssignPublicIp: DISABLED
