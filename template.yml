@@ -45,7 +45,7 @@ Resources:
           LogConfiguration:
             LogDriver: awslogs
             Options:
-              awslogs-group: /ecs/fargate-task-definition
+              awslogs-group: fargate-task-definition
               awslogs-region: ${AWS::Region}
               awslogs-stream-prefix: ecs
               awslogs-create-group: true
