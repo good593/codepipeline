@@ -54,7 +54,7 @@ Resources:
       Memory: "4096" # $ GB
       NetworkMode: awsvpc
       RequiresCompatibilities:
-        - FARGATE
+        - EC2
       RuntimePlatform:
         OperatingSystemFamily: LINUX
   ##########################################################################
@@ -67,10 +67,10 @@ Resources:
       ServiceName: !Sub ${DefaultName}-ecs-service
       Cluster: !Ref ECSCluster
       DesiredCount: 1
-      LaunchType: FARGATE
+      LaunchType: EC2 # FARGATE
       NetworkConfiguration:
         AwsvpcConfiguration:
-          AssignPublicIp: ENABLED
+          AssignPublicIp: DISABLED
           SecurityGroups:
             - sg-0b8eb5ef628718991 # 알맞은 내용으로 수정 
           Subnets:
