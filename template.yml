@@ -17,7 +17,7 @@ Parameters:
 Resources:
   ##########################################################################
   #   ECSCluster
-  #   
+  #   https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ecs-cluster.html
   ##########################################################################
   ECSCluster:
     Type: 'AWS::ECS::Cluster'
@@ -54,12 +54,12 @@ Resources:
       Memory: "4096" # $ GB
       NetworkMode: awsvpc
       RequiresCompatibilities:
-        - EC2
+        - FARGATE
       RuntimePlatform:
         OperatingSystemFamily: LINUX
   ##########################################################################
   #   ECSService
-  #   
+  #   https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ecs-service.html
   ##########################################################################
   ECSService:
     Type: 'AWS::ECS::Service'
@@ -67,7 +67,7 @@ Resources:
       ServiceName: !Sub ${DefaultName}-ecs-service
       Cluster: !Ref ECSCluster
       DesiredCount: 1
-      LaunchType: EC2
+      LaunchType: FARGATE
       NetworkConfiguration:
         AwsvpcConfiguration:
           AssignPublicIp: ENABLED
